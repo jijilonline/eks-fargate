@@ -1,0 +1,22 @@
+
+eksctl create cluster --name myDemoEKS --region us-west-2 --fargate
+kubectl get nodes
+
+
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: fargate-cluster
+  region: us-west-2
+nodeGroups:
+  - name: ng-1
+    instanceType: m5.large
+    desiredCapacity: 1
+fargateProfiles:
+  - name: fp-default
+    selectors:
+      - namespace: default
+      - namespace: kube-system
+
+eksctl create cluster -f myFargateCluster.yaml
